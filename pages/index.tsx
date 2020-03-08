@@ -1,28 +1,28 @@
-import React from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import React, { useContext } from 'react';
+import { NextPage } from 'next';
+import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import MuiLink from '@material-ui/core/Link';
+import Logo from '../components/Logo';
+import VideoContainer from '../components/VideoContainer';
+import { StoreProvider, StoreContext } from '../store';
 
-const Copyright = () => (
-  <Typography variant="body2" color="textSecondary" align="center">
-    {'Copyright © '}
-    <MuiLink color="inherit" href="https://material-ui.com/">
-      Your Website
-    </MuiLink>{' '}
-    {new Date().getFullYear()}.
-  </Typography>
-);
+const IndexPage: NextPage = () => {
+  const { state } = useContext(StoreContext);
 
-export default function Index() {
   return (
-    <Container maxWidth="sm">
-      <Box my={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Next.js example
-        </Typography>
-        <Copyright />
-      </Box>
-    </Container>
+    <StoreProvider>
+      <Logo />
+      <Grid container>
+        {state.videos.map(v => (
+          <Grid key={v.videoId} item xs={12} sm={6}>
+            <Box p={1}>
+              <VideoContainer videoId={v.videoId} />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </StoreProvider>
   );
-}
+};
+
+export default IndexPage;
