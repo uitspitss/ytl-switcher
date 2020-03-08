@@ -17,7 +17,7 @@ export const initialState: State = {
     },
     {
       videoId: 'UhfDDws5kt4',
-      isMuted: true,
+      isMuted: false,
     },
   ],
 };
@@ -41,6 +41,22 @@ export const reducer = (state: State, action: Action) => {
         videoId: v.videoId,
         isMuted: true,
       }));
+
+      return {
+        ...state,
+        videos,
+      };
+    }
+    case ActionType.ADD_VIDEO: {
+      const { videoId } = action.payload;
+      const videos = [...state.videos];
+      if (videos.every(v => v.videoId !== videoId)) {
+        videos.push({ videoId, isMuted: true });
+        localStorage.setItem(
+          'video_ids',
+          JSON.stringify(videos.map(v => v.videoId)),
+        );
+      }
 
       return {
         ...state,

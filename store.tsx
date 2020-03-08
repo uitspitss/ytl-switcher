@@ -10,8 +10,23 @@ export const StoreContext = createContext<{
   dispatch: () => {},
 });
 
+const getVideosLS = () => {
+  if (typeof window === 'undefined') return { videos: [] };
+  const videoIds = localStorage.getItem('video_ids');
+  if (!videoIds) {
+    return { videos: [] };
+  }
+
+  return {
+    videos: JSON.parse(videoIds).map((vid: string) => ({
+      videoId: vid,
+      isMuted: true,
+    })),
+  };
+};
+
 export const StoreProvider: FC = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState, getVideosLS);
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>

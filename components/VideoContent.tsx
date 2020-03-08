@@ -56,7 +56,7 @@ const StyledDiv = styled.div<StyledProps>`
   .overlay button {
     width: 100%;
     height: 100%;
-    color: #fff;
+    color: ${props => (props.isMuted ? '#fff' : '#c4302b')};
     background: #333;
   }
 `;
@@ -74,7 +74,7 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
-    event.target.mute();
+    if (video && video.isMuted) event.target.mute();
   };
 
   useEffect(() => {
