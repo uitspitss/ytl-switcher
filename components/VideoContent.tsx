@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { StoreContext } from '../store';
-import { ActionType } from '../actions';
+import { MUTE_ALL, UNMUTE_ONE } from '../actions';
 
 type StyledProps = {
   height: string;
@@ -108,8 +108,8 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
           type="button"
           onClick={() =>
             video && video.isMuted
-              ? dispatch({ type: ActionType.UNMUTE_ONE, payload: { videoId } })
-              : dispatch({ type: ActionType.MUTE_ALL, payload: { videoId } })
+              ? dispatch({ type: UNMUTE_ONE, payload: { videoId } })
+              : dispatch({ type: MUTE_ALL, payload: { videoId } })
           }
         >
           {video && video.isMuted ? (

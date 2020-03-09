@@ -1,7 +1,7 @@
 import React, { FC, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { StoreContext } from '../store';
-import { ActionType } from '../actions';
+import { ADD_VIDEO } from '../actions';
 
 const AdditionForm: FC = () => {
   const { dispatch } = useContext(StoreContext);
@@ -10,7 +10,7 @@ const AdditionForm: FC = () => {
   const onSubmit = (data: any) => {
     if (data && data.videoId && typeof data.videoId === 'string')
       dispatch({
-        type: ActionType.ADD_VIDEO,
+        type: ADD_VIDEO,
         payload: { videoId: data.videoId },
       });
   };

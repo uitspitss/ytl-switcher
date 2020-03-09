@@ -1,9 +1,5 @@
-import { Action, ActionType } from './actions';
-
-export type Video = {
-  videoId: string;
-  isMuted: boolean;
-};
+import { Action, MUTE_ALL, UNMUTE_ONE, ADD_VIDEO } from './actions';
+import { Video } from './types';
 
 export type State = {
   videos: Video[];
@@ -24,7 +20,7 @@ export const initialState: State = {
 
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case ActionType.UNMUTE_ONE: {
+    case UNMUTE_ONE: {
       const { videoId } = action.payload;
       const videos = state.videos.map(v => ({
         videoId: v.videoId,
@@ -36,7 +32,7 @@ export const reducer = (state: State, action: Action) => {
         videos,
       };
     }
-    case ActionType.MUTE_ALL: {
+    case MUTE_ALL: {
       const videos = state.videos.map(v => ({
         videoId: v.videoId,
         isMuted: true,
@@ -47,7 +43,7 @@ export const reducer = (state: State, action: Action) => {
         videos,
       };
     }
-    case ActionType.ADD_VIDEO: {
+    case ADD_VIDEO: {
       const { videoId } = action.payload;
       const videos = [...state.videos];
       if (videos.every(v => v.videoId !== videoId)) {
@@ -63,7 +59,12 @@ export const reducer = (state: State, action: Action) => {
         videos,
       };
     }
-    default:
+    default: {
+      // FIXME: disable bug
+      // // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // const _: never = action;
+
       return state;
+    }
   }
 };
