@@ -11,10 +11,10 @@ const VideoGrid: FC = () => {
   return (
     <>
       <Grid container>
-        {state.videos.map(v => (
-          <Grid key={v.videoId} item xs={12} sm={6}>
+        {state.channels.map(c => (
+          <Grid key={c.channelId} item xs={12} sm={6}>
             <Box p={1}>
-              <VideoContainer videoId={v.videoId} />
+              <VideoContainer channelId={c.channelId} />
             </Box>
           </Grid>
         ))}

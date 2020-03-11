@@ -1,62 +1,53 @@
 import { Action, MUTE_ALL, UNMUTE_ONE, ADD_VIDEO } from './actions';
-import { Video } from './types';
+import { Channel } from './types';
 
 export type State = {
-  videos: Video[];
+  channels: Channel[];
 };
 
 export const initialState: State = {
-  videos: [
-    {
-      videoId: 'coYw-eVU0Ks',
-      isMuted: true,
-    },
-    {
-      videoId: 'UhfDDws5kt4',
-      isMuted: false,
-    },
-  ],
+  channels: [],
 };
 
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case UNMUTE_ONE: {
-      const { videoId } = action.payload;
-      const videos = state.videos.map(v => ({
-        videoId: v.videoId,
-        isMuted: v.videoId !== videoId,
+      const { channelId } = action.payload;
+      const channels = state.channels.map(c => ({
+        channelId: c.channelId,
+        isMuted: c.channelId !== channelId,
       }));
 
       return {
         ...state,
-        videos,
+        channels,
       };
     }
     case MUTE_ALL: {
-      const videos = state.videos.map(v => ({
-        videoId: v.videoId,
+      const channels = state.channels.map(c => ({
+        channelId: c.channelId,
         isMuted: true,
       }));
 
       return {
         ...state,
-        videos,
+        channels,
       };
     }
     case ADD_VIDEO: {
-      const { videoId } = action.payload;
-      const videos = [...state.videos];
-      if (videos.every(v => v.videoId !== videoId)) {
-        videos.push({ videoId, isMuted: true });
+      const { channelId } = action.payload;
+      const channels = [...state.channels];
+      if (channels.every(c => c.channelId !== channelId)) {
+        channels.push({ channelId, isMuted: true });
         localStorage.setItem(
-          'video_ids',
-          JSON.stringify(videos.map(v => v.videoId)),
+          'ytl_switcher_channels',
+          JSON.stringify(channels.map(c => c.channelId)),
         );
       }
 
       return {
         ...state,
-        videos,
+        channels,
       };
     }
     default: {

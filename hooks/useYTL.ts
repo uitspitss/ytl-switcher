@@ -1,38 +1,40 @@
 import { useEffect, useState } from 'react';
 
-import getUser from '../services/twitter/get-user';
-import getTimeline from '../services/twitter/get-timeline';
-import { User } from '../services/twitter/models/user';
-import { Tweet } from '../services/twitter/models/tweet';
+import getChannelLives from '../services/youtube/get-channel-lives';
+import { LatestLive } from '../services/youtube/models/search-result';
 
-const useTwitter = (screenName: string) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [timeline, setTimeline] = useState<Tweet[] | null>([]);
+const useYTL = (channelId: string) => {
+  const [latestLive, setLatestLive] = useState<LatestLive | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const load = async () => {
-      if (screenName.length >= 1) {
+      if (channelId.length >= 1) {
         setLoading(true);
         try {
-          const twUser = await getUser(screenName);
-          const twTimeline = await getTimeline(screenName);
-          setUser(twUser);
-          setTimeline(twTimeline);
+          const lives = await getChannelLives(channelId);
+          const sortedLives = lives?.items.sort((va, vb) =>
+            new Date(va.snippet.publishedAt).getTime() <
+            new Date(vb.snippet.publishedAt).getTime()
+              ? 1
+              : -1,
+          );
+          if (sortedLives) {
+            setLatestLive({ videoId: sortedLives[0].id.videoId });
+          }
         } catch (err) {
           setError(err);
-          setUser(null);
-          setTimeline([]);
+          setLatestLive(null);
         }
         setLoading(false);
       }
     };
 
     load();
-  }, []);
+  }, [channelId]);
 
-  return { user, timeline, loading, error };
+  return { latestLive, loading, error };
 };
 
-export default useTwitter;
+export default useYTL;

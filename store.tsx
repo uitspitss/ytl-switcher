@@ -11,15 +11,15 @@ export const StoreContext = createContext<{
 });
 
 const getVideosLS = () => {
-  if (typeof window === 'undefined') return { videos: [] };
-  const videoIds = localStorage.getItem('video_ids');
-  if (!videoIds) {
-    return { videos: [] };
+  if (typeof window === 'undefined') return { channels: [] };
+  const channels = localStorage.getItem('ytl_switcher_channels');
+  if (!channels) {
+    return { channels: [] };
   }
 
   return {
-    videos: JSON.parse(videoIds).map((vid: string) => ({
-      videoId: vid,
+    channels: JSON.parse(channels).map((cid: string) => ({
+      channelId: cid,
       isMuted: true,
     })),
   };

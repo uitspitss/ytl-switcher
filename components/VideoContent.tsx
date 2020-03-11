@@ -5,6 +5,7 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
+import useYTL from '../hooks/useYTL';
 
 type StyledProps = {
   height: string;
@@ -62,19 +63,20 @@ const StyledDiv = styled.div<StyledProps>`
 `;
 
 type Props = {
-  videoId: string;
+  channelId: string;
   height: string;
   width: string;
 };
 
-const VideoContent: FC<Props> = ({ videoId, height, width }) => {
+const VideoContent: FC<Props> = ({ channelId, height, width }) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
-  const video = state.videos.find(v => v.videoId === videoId);
+  const { latestLive } = useYTL(channelId);
+  const isMuted = state.channels.find(c => c.channelId === channelId)?.isMuted;
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
-    if (video && video.isMuted) event.target.mute();
+    if (latestLive && isMuted) event.target.mute();
   };
 
   useEffect(() => {
@@ -85,12 +87,12 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
     } else {
       p.mute();
     }
-  }, [video?.isMuted]);
+  }, [channelId, isMuted]);
 
   return (
-    <StyledDiv height={height} width={width} isMuted={video?.isMuted}>
+    <StyledDiv height={height} width={width} isMuted={isMuted}>
       <YouTube
-        videoId={videoId}
+        videoId={latestLive?.videoId}
         opts={{
           height,
           width,
@@ -101,18 +103,21 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
         onReady={handleReady}
       />
       <div className="indicator">
-        {video && video.isMuted ? '' : <VolumeUpIcon fontSize="large" />}
+        {isMuted ? '' : <VolumeUpIcon fontSize="large" />}
       </div>
       <div className="overlay">
         <button
           type="button"
           onClick={() =>
-            video && video.isMuted
-              ? dispatch({ type: UNMUTE_ONE, payload: { videoId } })
-              : dispatch({ type: MUTE_ALL, payload: { videoId } })
+            isMuted
+              ? dispatch({
+                  type: UNMUTE_ONE,
+                  payload: { channelId },
+                })
+              : dispatch({ type: MUTE_ALL, payload: { channelId } })
           }
         >
-          {video && video.isMuted ? (
+          {isMuted ? (
             <VolumeOffIcon fontSize="large" />
           ) : (
             <VolumeUpIcon fontSize="large" />

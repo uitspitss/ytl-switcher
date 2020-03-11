@@ -8,16 +8,16 @@ const AdditionForm: FC = () => {
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {
-    if (data && data.videoId && typeof data.videoId === 'string')
+    if (data && data.channelId && typeof data.channelId === 'string')
       dispatch({
         type: ADD_VIDEO,
-        payload: { videoId: data.videoId },
+        payload: { channelId: data.channelId },
       });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input name="videoId" ref={register({ required: true })} />
+      <input name="channelId" ref={register({ required: true })} />
       <input type="submit" value="追加する" />
     </form>
   );

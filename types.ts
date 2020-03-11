@@ -1,4 +1,4 @@
-export type Video = {
-  videoId: string;
+export type Channel = {
+  channelId: string;
   isMuted: boolean;
 };

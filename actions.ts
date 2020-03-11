@@ -2,24 +2,24 @@ export const MUTE_ALL = 'MUTE_ALL' as const;
 export const UNMUTE_ONE = 'UNMUTE_ONE' as const;
 export const ADD_VIDEO = 'ADD_VIDEO' as const;
 
-export const muteAll = (videoId: string) => ({
+export const muteAll = (channelId: string) => ({
   type: MUTE_ALL,
   payload: {
-    videoId,
+    channelId,
   },
 });
 
-export const unmuteOne = (videoId: string) => ({
+export const unmuteOne = (channelId: string) => ({
   type: UNMUTE_ONE,
   payload: {
-    videoId,
+    channelId,
   },
 });
 
-export const addVideo = (videoId: string) => ({
+export const addVideo = (channelId: string) => ({
   type: ADD_VIDEO,
   payload: {
-    videoId,
+    channelId,
   },
 });
 

@@ -2,7 +2,7 @@ import React, { FC, useState, useCallback } from 'react';
 import VideoContent from './VideoContent';
 
 type Props = {
-  videoId: string;
+  channelId: string;
 };
 
 const VideoContainer: FC<Props> = (props: Props) => {
