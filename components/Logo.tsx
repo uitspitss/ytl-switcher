@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 const Logo = () => (
   <AppBar position="static">
     <Toolbar>
-      <Typography variant="h6">YTL Switcher</Typography>
+      <Typography variant="h6">YouTube Live Switcher (YTL Switcher)</Typography>
     </Toolbar>
   </AppBar>
 );

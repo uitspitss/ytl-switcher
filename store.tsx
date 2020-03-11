@@ -10,7 +10,7 @@ export const StoreContext = createContext<{
   dispatch: () => {},
 });
 
-const getVideosLS = () => {
+const initializeState = () => {
   if (typeof window === 'undefined') return { channels: [] };
   const channels = localStorage.getItem('ytl_switcher_channels');
   if (!channels) {
@@ -26,7 +26,7 @@ const getVideosLS = () => {
 };
 
 export const StoreProvider: FC = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState, getVideosLS);
+  const [state, dispatch] = useReducer(reducer, initialState, initializeState);
 
   return (
     <StoreContext.Provider value={{ state, dispatch }}>
