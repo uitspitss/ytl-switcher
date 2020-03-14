@@ -7,7 +7,7 @@ type Video = {
   };
   snippet: {
     publishedAt: string;
-    channelId: string;
+    videoId: string;
     title: string;
     description: string;
     thumbnails: {

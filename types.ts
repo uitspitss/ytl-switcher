@@ -1,4 +1,4 @@
-export type Channel = {
-  channelId: string;
+export type Live = {
+  videoId: string;
   isMuted: boolean;
 };

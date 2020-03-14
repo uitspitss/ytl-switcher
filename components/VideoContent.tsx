@@ -5,7 +5,6 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
-import useYTL from '../hooks/useYTL';
 
 type StyledProps = {
   height: string;
@@ -63,20 +62,19 @@ const StyledDiv = styled.div<StyledProps>`
 `;
 
 type Props = {
-  channelId: string;
+  videoId: string;
   height: string;
   width: string;
 };
 
-const VideoContent: FC<Props> = ({ channelId, height, width }) => {
+const VideoContent: FC<Props> = ({ videoId, height, width }) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
-  const { latestLive } = useYTL(channelId);
-  const isMuted = state.channels.find(c => c.channelId === channelId)?.isMuted;
+  const isMuted = state.lives.find(c => c.videoId === videoId)?.isMuted;
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
-    if (latestLive && isMuted) event.target.mute();
+    if (isMuted) event.target.mute();
   };
 
   useEffect(() => {
@@ -87,12 +85,12 @@ const VideoContent: FC<Props> = ({ channelId, height, width }) => {
     } else {
       p.mute();
     }
-  }, [channelId, isMuted]);
+  }, [videoId, isMuted]);
 
   return (
     <StyledDiv height={height} width={width} isMuted={isMuted}>
       <YouTube
-        videoId={latestLive?.videoId}
+        videoId={videoId}
         opts={{
           height,
           width,
@@ -112,9 +110,9 @@ const VideoContent: FC<Props> = ({ channelId, height, width }) => {
             isMuted
               ? dispatch({
                   type: UNMUTE_ONE,
-                  payload: { channelId },
+                  payload: { videoId },
                 })
-              : dispatch({ type: MUTE_ALL, payload: { channelId } })
+              : dispatch({ type: MUTE_ALL, payload: { videoId } })
           }
         >
           {isMuted ? (

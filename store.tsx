@@ -11,17 +11,14 @@ export const StoreContext = createContext<{
 });
 
 const initializeState = () => {
-  if (typeof window === 'undefined') return { channels: [] };
-  const channels = localStorage.getItem('ytl_switcher_channels');
-  if (!channels) {
-    return { channels: [] };
+  if (window) return { lives: [] };
+  const state = localStorage.getItem('ytl_switcher');
+  if (!state) {
+    return { lives: [] };
   }
 
   return {
-    channels: JSON.parse(channels).map((cid: string) => ({
-      channelId: cid,
-      isMuted: true,
-    })),
+    lives: JSON.parse(state),
   };
 };
 

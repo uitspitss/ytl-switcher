@@ -1,53 +1,53 @@
 import { Action, MUTE_ALL, UNMUTE_ONE, ADD_VIDEO } from './actions';
-import { Channel } from './types';
+import { Live } from './types';
 
 export type State = {
-  channels: Channel[];
+  lives: Live[];
 };
 
 export const initialState: State = {
-  channels: [],
+  lives: [],
 };
 
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case UNMUTE_ONE: {
-      const { channelId } = action.payload;
-      const channels = state.channels.map(c => ({
-        channelId: c.channelId,
-        isMuted: c.channelId !== channelId,
+      const { videoId } = action.payload;
+      const lives = state.lives.map(live => ({
+        videoId: live.videoId,
+        isMuted: live.videoId !== videoId,
       }));
 
       return {
         ...state,
-        channels,
+        lives,
       };
     }
     case MUTE_ALL: {
-      const channels = state.channels.map(c => ({
-        channelId: c.channelId,
+      const lives = state.lives.map(c => ({
+        videoId: c.videoId,
         isMuted: true,
       }));
 
       return {
         ...state,
-        channels,
+        lives,
       };
     }
     case ADD_VIDEO: {
-      const { channelId } = action.payload;
-      const channels = [...state.channels];
-      if (channels.every(c => c.channelId !== channelId)) {
-        channels.push({ channelId, isMuted: true });
+      const { videoId } = action.payload;
+      const lives = [...state.lives];
+      if (lives.every(c => c.videoId !== videoId)) {
+        lives.push({ videoId, isMuted: true });
         localStorage.setItem(
-          'ytl_switcher_channels',
-          JSON.stringify(channels.map(c => c.channelId)),
+          'ytl_switcher',
+          JSON.stringify({ lives: [...lives] }),
         );
       }
 
       return {
         ...state,
-        channels,
+        lives,
       };
     }
     default: {

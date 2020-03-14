@@ -33,10 +33,10 @@ const AdditionForm: FC = () => {
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data: any) => {
-    if (data && data.channelId && typeof data.channelId === 'string')
+    if (data && data.videoId && typeof data.videoId === 'string')
       dispatch({
         type: ADD_VIDEO,
-        payload: { channelId: data.channelId },
+        payload: { videoId: data.videoId },
       });
   };
   const handleOpen = () => {
@@ -55,7 +55,7 @@ const AdditionForm: FC = () => {
         <StyledPaper>
           <StyledForm onSubmit={handleSubmit(onSubmit)}>
             <TextField
-              name="channelId"
+              name="videoId"
               inputRef={register({ required: true })}
               label="ライブ配信ID"
             />
