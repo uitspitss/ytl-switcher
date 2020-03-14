@@ -24,8 +24,8 @@ export const reducer = (state: State, action: Action) => {
       };
     }
     case MUTE_ALL: {
-      const lives = state.lives.map(c => ({
-        videoId: c.videoId,
+      const lives = state.lives.map(live => ({
+        videoId: live.videoId,
         isMuted: true,
       }));
 

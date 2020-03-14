@@ -10,10 +10,10 @@ const VideoGrid: FC = () => {
   return (
     <>
       <Grid container>
-        {state.lives.map(c => (
-          <Grid key={c.videoId} item xs={12} sm={6}>
+        {state.lives.map(live => (
+          <Grid key={live.videoId} item xs={12} sm={6}>
             <Box p={1}>
-              <VideoContainer videoId={c.videoId} />
+              <VideoContainer videoId={live.videoId} />
             </Box>
           </Grid>
         ))}

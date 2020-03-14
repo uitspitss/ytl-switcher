@@ -11,15 +11,13 @@ export const StoreContext = createContext<{
 });
 
 const initializeState = () => {
-  if (window) return { lives: [] };
-  const state = localStorage.getItem('ytl_switcher');
-  if (!state) {
+  if (typeof window === 'undefined') return { lives: [] };
+  const storage = localStorage.getItem('ytl_switcher');
+  if (!storage) {
     return { lives: [] };
   }
 
-  return {
-    lives: JSON.parse(state),
-  };
+  return JSON.parse(storage);
 };
 
 export const StoreProvider: FC = ({ children }) => {
