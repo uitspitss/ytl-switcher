@@ -1,0 +1,7 @@
+{
+  "build": {
+    "env": {
+      "LOCAL_STORAGE_KEY": "ytl-switcher"
+    }
+  }
+}
