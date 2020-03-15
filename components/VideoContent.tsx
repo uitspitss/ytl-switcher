@@ -81,6 +81,7 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
   useEffect(() => {
     const p = player.current;
     if (!p) return;
+    p.playVideo();
     if (p.isMuted()) {
       p.unMute();
     } else {
