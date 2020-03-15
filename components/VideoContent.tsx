@@ -1,4 +1,4 @@
-import React, { FC, useRef, useContext, useEffect } from 'react';
+import React, { FC, useState, useRef, useContext, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from '@emotion/styled';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
@@ -7,8 +7,6 @@ import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
 
 type StyledProps = {
-  height: string;
-  width: string;
   isMuted?: boolean;
 };
 
@@ -19,7 +17,7 @@ const StyledDiv = styled.div<StyledProps>`
 
   @keyframes fadeOut {
     0% {
-      opacity: 0.8;
+      opacity: 0.7;
     }
     100% {
       opacity: 0;
@@ -70,6 +68,7 @@ type Props = {
 const VideoContent: FC<Props> = ({ videoId, height, width }) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
+  const [videoWidth, setVideoWidth] = useState(width);
   const isMuted = state.lives.find(c => c.videoId === videoId)?.isMuted;
 
   const handleReady = (event: { target: any }) => {
@@ -87,13 +86,17 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
     }
   }, [videoId, isMuted]);
 
+  useEffect(() => {
+    setVideoWidth(width);
+  }, [width]);
+
   return (
-    <StyledDiv height={height} width={width} isMuted={isMuted}>
+    <StyledDiv isMuted={isMuted}>
       <YouTube
         videoId={videoId}
         opts={{
           height,
-          width,
+          width: videoWidth,
           playerVars: {
             autoplay: 1,
           },

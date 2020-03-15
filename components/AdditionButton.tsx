@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import VideoForm from './VideoForm';
 
 const StyledFab = styled(Fab)`
-  position: absolute !important;
+  position: fixed !important;
   bottom: 25px;
   right: 25px;
   z-index: 100;
