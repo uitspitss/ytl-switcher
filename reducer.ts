@@ -15,6 +15,10 @@ export const initialState: State = {
   lives: [],
 };
 
+const saveLocalStorage = (state: State) => {
+  localStorage.setItem('ytl_switcher', JSON.stringify(state));
+};
+
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case UNMUTE_ONE: {
@@ -23,6 +27,7 @@ export const reducer = (state: State, action: Action) => {
         videoId: live.videoId,
         isMuted: live.videoId !== videoId,
       }));
+      saveLocalStorage({ lives });
 
       return {
         ...state,
@@ -34,6 +39,7 @@ export const reducer = (state: State, action: Action) => {
         videoId: live.videoId,
         isMuted: true,
       }));
+      saveLocalStorage({ lives });
 
       return {
         ...state,
@@ -62,10 +68,7 @@ export const reducer = (state: State, action: Action) => {
 
       if (lives.some(live => live.videoId === videoId)) {
         lives = lives.filter(v => v.videoId !== videoId);
-        localStorage.setItem(
-          'ytl_switcher',
-          JSON.stringify({ lives: [...lives] }),
-        );
+        saveLocalStorage({ lives });
       }
 
       return {

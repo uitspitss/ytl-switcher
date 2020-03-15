@@ -7,8 +7,9 @@ import VideoForm from './VideoForm';
 
 const StyledFab = styled(Fab)`
   position: absolute !important;
-  bottom: 10px;
-  right: 10px;
+  bottom: 25px;
+  right: 25px;
+  z-index: 100;
 `;
 
 type Props = {
