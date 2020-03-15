@@ -41,6 +41,7 @@ const StyledDiv = styled.div<StyledProps>`
     height: 100%;
     width: 100%;
     opacity: 0;
+    cursor: pointer;
   }
 
   .overlay:hover {
