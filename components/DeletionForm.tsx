@@ -4,36 +4,40 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from '@emotion/styled';
 import { StoreContext } from '../store';
-import { ADD_VIDEO } from '../actions';
+import { DELETE_VIDEO } from '../actions';
 
 const StyledForm = styled.form`
   margin: 10px;
 `;
 
-const AdditionForm: FC = () => {
+type Props = {
+  videoId: string;
+};
+
+const DeletionForm: FC<Props> = ({ videoId }) => {
   const { dispatch } = useContext(StoreContext);
 
-  const { register, handleSubmit, setValue } = useForm<{ videoId: string }>();
-  const onSubmit = handleSubmit(({ videoId }) => {
+  const { register, handleSubmit } = useForm<{ vid: string }>();
+  const onSubmit = handleSubmit(({ vid }) => {
     dispatch({
-      type: ADD_VIDEO,
-      payload: { videoId },
+      type: DELETE_VIDEO,
+      payload: { videoId: vid },
     });
-    setValue('videoId', '');
   });
 
   return (
     <StyledForm onSubmit={onSubmit}>
       <TextField
-        name="videoId"
+        name="vid"
         inputRef={register({ required: true })}
+        defaultValue={videoId}
         label="ライブ配信ID"
       />
-      <Button type="submit" variant="contained" color="primary">
-        追加する
+      <Button type="submit" variant="outlined" color="primary">
+        削除する
       </Button>
     </StyledForm>
   );
 };
 
-export default AdditionForm;
+export default DeletionForm;

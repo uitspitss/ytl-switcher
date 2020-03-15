@@ -43,7 +43,7 @@ export const reducer = (state: State, action: Action) => {
     case ADD_VIDEO: {
       const { videoId } = action.payload;
       const lives = [...state.lives];
-      if (lives.every(c => c.videoId !== videoId)) {
+      if (lives.every(live => live.videoId !== videoId)) {
         lives.push({ videoId, isMuted: true });
         localStorage.setItem(
           'ytl_switcher',
@@ -60,7 +60,7 @@ export const reducer = (state: State, action: Action) => {
       const { videoId } = action.payload;
       let lives = [...state.lives];
 
-      if (lives.some(v => v.videoId === videoId)) {
+      if (lives.some(live => live.videoId === videoId)) {
         lives = lives.filter(v => v.videoId !== videoId);
         localStorage.setItem(
           'ytl_switcher',

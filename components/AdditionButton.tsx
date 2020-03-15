@@ -3,7 +3,7 @@ import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import styled from '@emotion/styled';
-import AdditionForm from './AdditionForm';
+import VideoForm from './VideoForm';
 
 const StyledFab = styled(Fab)`
   position: absolute !important;
@@ -36,7 +36,7 @@ const AdditionButton: FC<Props> = ({ floating = false }) => {
           ライブ配信を追加する
         </Button>
       )}
-      <AdditionForm isOpen={open} handleClose={handleClose} />
+      <VideoForm isOpen={open} handleClose={handleClose} />
     </>
   );
 };
