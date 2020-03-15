@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import styled from '@emotion/styled';
 import { StoreContext } from '../store';
-import { ADD_VIDEO } from '../actions';
+import { ADD_VIDEO, DELETE_VIDEO } from '../actions';
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -15,30 +15,36 @@ const StyledModal = styled(Modal)`
 `;
 
 const StyledPaper = styled(Paper)`
-  height: 30vh;
-  width: 60vh;
-`;
-
-const StyledForm = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  flex-direction: column;
+  margin: 25px;
+`;
+
+const StyledForm = styled.form`
+  margin: 10px;
 `;
 
 const AdditionForm: FC = () => {
-  const { dispatch } = useContext(StoreContext);
-  const [open, setOpen] = useState(true);
+  const { state, dispatch } = useContext(StoreContext);
+  const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => {
-    if (data && data.videoId && typeof data.videoId === 'string')
+  const { register, handleSubmit } = useForm<{ videoId: string }>();
+  const onSubmitAdd = handleSubmit(({ videoId }) => {
+    if (videoId && typeof videoId === 'string')
       dispatch({
         type: ADD_VIDEO,
-        payload: { videoId: data.videoId },
+        payload: { videoId },
       });
-  };
+  });
+  const onSubmitDelete = handleSubmit(({ videoId }) => {
+    if (videoId && typeof videoId === 'string')
+      dispatch({
+        type: DELETE_VIDEO,
+        payload: { videoId },
+      });
+  });
   const handleOpen = () => {
     setOpen(true);
   };
@@ -53,7 +59,20 @@ const AdditionForm: FC = () => {
       </Button>
       <StyledModal open={open} onClose={handleClose}>
         <StyledPaper>
-          <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          {state.lives.map(live => (
+            <StyledForm key={live.videoId} onSubmit={onSubmitDelete}>
+              <TextField
+                name="videoId"
+                inputRef={register({ required: true })}
+                defaultValue={live.videoId}
+                label="ライブ配信ID"
+              />
+              <Button type="submit" variant="outlined" color="primary">
+                削除する
+              </Button>
+            </StyledForm>
+          ))}
+          <StyledForm onSubmit={onSubmitAdd}>
             <TextField
               name="videoId"
               inputRef={register({ required: true })}

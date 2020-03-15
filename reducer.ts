@@ -1,4 +1,10 @@
-import { Action, MUTE_ALL, UNMUTE_ONE, ADD_VIDEO } from './actions';
+import {
+  Action,
+  MUTE_ALL,
+  UNMUTE_ONE,
+  ADD_VIDEO,
+  DELETE_VIDEO,
+} from './actions';
 import { Live } from './types';
 
 export type State = {
@@ -39,6 +45,23 @@ export const reducer = (state: State, action: Action) => {
       const lives = [...state.lives];
       if (lives.every(c => c.videoId !== videoId)) {
         lives.push({ videoId, isMuted: true });
+        localStorage.setItem(
+          'ytl_switcher',
+          JSON.stringify({ lives: [...lives] }),
+        );
+      }
+
+      return {
+        ...state,
+        lives,
+      };
+    }
+    case DELETE_VIDEO: {
+      const { videoId } = action.payload;
+      let lives = [...state.lives];
+
+      if (lives.some(v => v.videoId === videoId)) {
+        lives = lives.filter(v => v.videoId !== videoId);
         localStorage.setItem(
           'ytl_switcher',
           JSON.stringify({ lives: [...lives] }),
