@@ -1,4 +1,4 @@
-import React, { FC, useState, useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
@@ -26,44 +26,40 @@ const StyledForm = styled.form`
   margin: 10px;
 `;
 
-const AdditionForm: FC = () => {
-  const { state, dispatch } = useContext(StoreContext);
-  const [open, setOpen] = useState(false);
+type Props = {
+  isOpen: boolean;
+  handleClose: () => void;
+};
 
-  const { register, handleSubmit } = useForm<{ videoId: string }>();
-  const onSubmitAdd = handleSubmit(({ videoId }) => {
-    if (videoId && typeof videoId === 'string')
-      dispatch({
-        type: ADD_VIDEO,
-        payload: { videoId },
-      });
+const AdditionForm: FC<Props> = ({ isOpen, handleClose }) => {
+  const { state, dispatch } = useContext(StoreContext);
+
+  const deletionForm = useForm<{ videoId: string }>();
+  const additionForm = useForm<{ videoId: string }>();
+  const onSubmitDelete = deletionForm.handleSubmit(({ videoId }) => {
+    console.log(videoId);
+    dispatch({
+      type: DELETE_VIDEO,
+      payload: { videoId },
+    });
   });
-  const onSubmitDelete = handleSubmit(({ videoId }) => {
-    if (videoId && typeof videoId === 'string')
-      dispatch({
-        type: DELETE_VIDEO,
-        payload: { videoId },
-      });
+  const onSubmitAdd = additionForm.handleSubmit(({ videoId }) => {
+    console.log(videoId);
+    dispatch({
+      type: ADD_VIDEO,
+      payload: { videoId },
+    });
   });
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <>
-      <Button onClick={handleOpen} variant="contained" color="secondary">
-        ライブ配信を追加する
-      </Button>
-      <StyledModal open={open} onClose={handleClose}>
+      <StyledModal open={isOpen} onClose={handleClose}>
         <StyledPaper>
           {state.lives.map(live => (
             <StyledForm key={live.videoId} onSubmit={onSubmitDelete}>
               <TextField
                 name="videoId"
-                inputRef={register({ required: true })}
+                inputRef={deletionForm.register({ required: true })}
                 defaultValue={live.videoId}
                 label="ライブ配信ID"
               />
@@ -75,7 +71,7 @@ const AdditionForm: FC = () => {
           <StyledForm onSubmit={onSubmitAdd}>
             <TextField
               name="videoId"
-              inputRef={register({ required: true })}
+              inputRef={additionForm.register({ required: true })}
               label="ライブ配信ID"
             />
             <Button type="submit" variant="contained" color="primary">
