@@ -16,7 +16,8 @@ export const initialState: State = {
 };
 
 const saveLocalStorage = (state: State) => {
-  localStorage.setItem('ytl_switcher', JSON.stringify(state));
+  if (process.env.LOCAL_STORAGE_KEY)
+    localStorage.setItem(process.env.LOCAL_STORAGE_KEY, JSON.stringify(state));
 };
 
 export const reducer = (state: State, action: Action) => {
@@ -51,10 +52,7 @@ export const reducer = (state: State, action: Action) => {
       const lives = [...state.lives];
       if (lives.every(live => live.videoId !== videoId)) {
         lives.push({ videoId, isMuted: true });
-        localStorage.setItem(
-          'ytl_switcher',
-          JSON.stringify({ lives: [...lives] }),
-        );
+        saveLocalStorage({ lives });
       }
 
       return {

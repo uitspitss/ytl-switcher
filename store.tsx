@@ -12,7 +12,8 @@ export const StoreContext = createContext<{
 
 const initializeState = () => {
   if (typeof window === 'undefined') return { lives: [] };
-  const storage = localStorage.getItem('ytl_switcher');
+  if (!process.env.LOCAL_STORAGE_KEY) return { lives: [] };
+  const storage = localStorage.getItem(process.env.LOCAL_STORAGE_KEY);
   if (!storage) {
     return { lives: [] };
   }
