@@ -10,6 +10,7 @@ const StyledDiv = styled.div`
   position: relative;
   width: 100vw;
   height: 100vh;
+  background-color: #111111;
 `;
 
 const IndexPage: NextPage = () => {
