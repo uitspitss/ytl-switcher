@@ -73,6 +73,7 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
+    player.current.playVideo();
     if (isMuted) event.target.mute();
   };
 
