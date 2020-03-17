@@ -32,6 +32,7 @@ const DeletionForm: FC<Props> = ({ videoId }) => {
         inputRef={register({ required: true })}
         defaultValue={videoId}
         label="ライブ配信ID"
+        InputProps={{ readOnly: true }}
       />
       <Button type="submit" variant="outlined" color="primary">
         削除する
