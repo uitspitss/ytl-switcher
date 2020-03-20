@@ -5,7 +5,6 @@ import {
   ADD_VIDEO,
   DELETE_VIDEO,
 } from './actions';
-import { Live } from './types';
 
 export type State = {
   lives: Live[];
