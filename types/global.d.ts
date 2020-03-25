@@ -5,4 +5,8 @@ declare global {
     videoId: string;
     isMuted: boolean;
   }
+
+  interface State {
+    lives: Live[];
+  }
 }

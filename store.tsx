@@ -1,5 +1,5 @@
 import React, { FC, createContext, useReducer, Dispatch } from 'react';
-import { reducer, initialState, State } from './reducer';
+import { reducer, initialState } from './reducer';
 import { Action } from './actions';
 
 export const StoreContext = createContext<{

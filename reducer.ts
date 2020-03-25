@@ -6,10 +6,6 @@ import {
   DELETE_VIDEO,
 } from './actions';
 
-export type State = {
-  lives: Live[];
-};
-
 export const initialState: State = {
   lives: [],
 };
