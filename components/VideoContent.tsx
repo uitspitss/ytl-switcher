@@ -20,7 +20,7 @@ const StyledDiv = styled.div<StyledProps>`
       opacity: 0.7;
     }
     100% {
-      opacity: 0;
+      opacity: 0.01;
     }
   }
 
@@ -40,7 +40,7 @@ const StyledDiv = styled.div<StyledProps>`
     color: #fff;
     height: 100%;
     width: 100%;
-    opacity: 0;
+    opacity: 0.01;
     cursor: pointer;
   }
 
