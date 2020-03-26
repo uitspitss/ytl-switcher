@@ -7,16 +7,20 @@ type Props = {
 
 const VideoContainer: FC<Props> = (props: Props) => {
   const [width, setWidth] = useState('0');
+  const [height, setHeight] = useState('0');
 
   const measureRef = useCallback(node => {
     if (node !== null) {
-      setWidth(node.getBoundingClientRect().width.toString());
+      const w = node.getBoundingClientRect().width;
+      const h = (w * 9) / 16;
+      setWidth(w.toString());
+      setHeight(h.toString());
     }
   }, []);
 
   return (
     <div ref={measureRef}>
-      <VideoContent height="390" width={width} {...props} />
+      <VideoContent height={height} width={width} {...props} />
     </div>
   );
 };
