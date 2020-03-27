@@ -6,10 +6,6 @@ import {
   DELETE_VIDEO,
 } from './actions';
 
-export const initialState: State = {
-  lives: [],
-};
-
 const saveLocalStorage = (state: State) => {
   if (process.env.LOCAL_STORAGE_KEY)
     localStorage.setItem(process.env.LOCAL_STORAGE_KEY, JSON.stringify(state));
@@ -19,11 +15,11 @@ export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case UNMUTE_ONE: {
       const { videoId } = action.payload;
-      const lives = state.lives.map(live => ({
+      const lives = state.lives.map((live) => ({
         videoId: live.videoId,
         isMuted: live.videoId !== videoId,
       }));
-      saveLocalStorage({ lives });
+      saveLocalStorage({ ...state, lives });
 
       return {
         ...state,
@@ -31,11 +27,11 @@ export const reducer = (state: State, action: Action) => {
       };
     }
     case MUTE_ALL: {
-      const lives = state.lives.map(live => ({
+      const lives = state.lives.map((live) => ({
         videoId: live.videoId,
         isMuted: true,
       }));
-      saveLocalStorage({ lives });
+      saveLocalStorage({ ...state, lives });
 
       return {
         ...state,
@@ -45,9 +41,9 @@ export const reducer = (state: State, action: Action) => {
     case ADD_VIDEO: {
       const { videoId } = action.payload;
       const lives = [...state.lives];
-      if (lives.every(live => live.videoId !== videoId)) {
+      if (lives.every((live) => live.videoId !== videoId)) {
         lives.push({ videoId, isMuted: true });
-        saveLocalStorage({ lives });
+        saveLocalStorage({ ...state, lives });
       }
 
       return {
@@ -59,9 +55,9 @@ export const reducer = (state: State, action: Action) => {
       const { videoId } = action.payload;
       let lives = [...state.lives];
 
-      if (lives.some(live => live.videoId === videoId)) {
-        lives = lives.filter(v => v.videoId !== videoId);
-        saveLocalStorage({ lives });
+      if (lives.some((live) => live.videoId === videoId)) {
+        lives = lives.filter((v) => v.videoId !== videoId);
+        saveLocalStorage({ ...state, lives });
       }
 
       return {

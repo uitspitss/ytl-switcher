@@ -8,5 +8,6 @@ declare global {
 
   interface State {
     lives: Live[];
+    apiKey: string;
   }
 }
