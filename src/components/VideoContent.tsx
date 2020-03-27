@@ -56,7 +56,7 @@ const StyledDiv = styled.div<StyledProps>`
   .overlay button {
     width: 100%;
     height: 100%;
-    color: ${props => (props.isMuted ? '#fff' : '#c4302b')};
+    color: ${(props) => (props.isMuted ? '#fff' : '#c4302b')};
     background: #333;
   }
 `;
@@ -70,7 +70,7 @@ type Props = {
 const VideoContent: FC<Props> = ({ videoId, height, width }) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
-  const isMuted = state.lives.find(c => c.videoId === videoId)?.isMuted;
+  const isMuted = state.lives.find((c) => c.videoId === videoId)?.isMuted;
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
