@@ -31,7 +31,7 @@ const VideoForm: FC<Props> = ({ isOpen, handleClose }) => {
   return (
     <StyledModal open={isOpen} onClose={handleClose}>
       <StyledPaper>
-        {state.lives.map(live => (
+        {state.lives.map((live) => (
           <DeletionForm key={live.videoId} videoId={live.videoId} />
         ))}
         <AdditionForm />
