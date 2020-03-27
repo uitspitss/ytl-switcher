@@ -4,6 +4,7 @@ import {
   UNMUTE_ONE,
   ADD_VIDEO,
   DELETE_VIDEO,
+  SET_API_KEY,
 } from './actions';
 
 const saveLocalStorage = (state: State) => {
@@ -65,10 +66,19 @@ export const reducer = (state: State, action: Action) => {
         lives,
       };
     }
+    case SET_API_KEY: {
+      const { apiKey } = action.payload;
+
+      saveLocalStorage({ ...state, apiKey });
+
+      return {
+        ...state,
+        apiKey,
+      };
+    }
     default: {
-      // FIXME: disable bug
-      // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // const _: never = action;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const _: never = action;
 
       return state;
     }

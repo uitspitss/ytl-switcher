@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { StoreContext } from '../store';
 import DeletionForm from './DeletionForm';
 import AdditionForm from './AdditionForm';
+import AdditionApiKeyForm from './SettingApiKeyForm';
 
 const StyledModal = styled(Modal)`
   display: flex;
@@ -35,6 +36,7 @@ const VideoForm: FC<Props> = ({ isOpen, handleClose }) => {
           <DeletionForm key={live.videoId} videoId={live.videoId} />
         ))}
         <AdditionForm />
+        <AdditionApiKeyForm />
       </StyledPaper>
     </StyledModal>
   );
