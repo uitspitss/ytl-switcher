@@ -1,6 +1,7 @@
 import React, { FC, useRef, useContext, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { StoreContext } from '../store';
@@ -100,6 +101,9 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
           },
         }}
         onReady={handleReady}
+        css={css`
+          pointer-events: none;
+        `}
       />
       <div className="indicator">
         {isMuted ? '' : <VolumeUpIcon fontSize="large" />}
