@@ -10,28 +10,45 @@ const StyledForm = styled.form`
   margin: 10px;
 `;
 
+const StyledTextField = styled(TextField)`
+  margin: 0 5px;
+`;
+
 type Props = {
   videoId: string;
+  channelId: string;
 };
 
-const DeletionForm: FC<Props> = ({ videoId }) => {
+type FormData = {
+  vid: string;
+  cid: string;
+};
+
+const DeletionForm: FC<Props> = ({ videoId, channelId }) => {
   const { dispatch } = useContext(StoreContext);
 
-  const { register, handleSubmit } = useForm<{ vid: string }>();
-  const onSubmit = handleSubmit(({ vid }) => {
+  const { register, handleSubmit } = useForm<FormData>();
+  const onSubmit = handleSubmit(({ vid, cid }) => {
     dispatch({
       type: DELETE_VIDEO,
-      payload: { videoId: vid },
+      payload: { videoId: vid, channelId: cid },
     });
   });
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      <TextField
+      <StyledTextField
         name="vid"
-        inputRef={register({ required: true })}
+        inputRef={register}
         defaultValue={videoId}
         label="ライブ配信ID"
+        InputProps={{ readOnly: true }}
+      />
+      <StyledTextField
+        name="cid"
+        inputRef={register}
+        defaultValue={channelId}
+        label="チャンネルID"
         InputProps={{ readOnly: true }}
       />
       <Button type="submit" variant="outlined" color="primary">

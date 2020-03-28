@@ -33,10 +33,14 @@ const VideoForm: FC<Props> = ({ isOpen, handleClose }) => {
     <StyledModal open={isOpen} onClose={handleClose}>
       <StyledPaper>
         {state.lives.map((live) => (
-          <DeletionForm key={live.videoId} videoId={live.videoId} />
+          <DeletionForm
+            key={live.videoId}
+            videoId={live.videoId}
+            channelId={live.channelId}
+          />
         ))}
         <AdditionForm />
-        <AdditionApiKeyForm />
+        <AdditionApiKeyForm apiKey={state.apiKey} />
       </StyledPaper>
     </StyledModal>
   );

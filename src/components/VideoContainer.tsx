@@ -1,15 +1,19 @@
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback, useContext, useEffect } from 'react';
 import VideoContent from './VideoContent';
+import useLatestLive from '../hooks/useLatestLive';
+import { StoreContext } from '../store';
+import { SET_VIDEO } from '../actions';
 
 type Props = {
-  videoId: string;
+  live: Live;
 };
 
-const VideoContainer: FC<Props> = (props: Props) => {
+const VideoContainer: FC<Props> = ({ live }) => {
   const [width, setWidth] = useState('0');
   const [height, setHeight] = useState('0');
+  const { state, dispatch } = useContext(StoreContext);
 
-  const measureRef = useCallback(node => {
+  const measureRef = useCallback((node) => {
     if (node !== null) {
       const w = node.getBoundingClientRect().width;
       const h = (w * 9) / 16;
@@ -18,9 +22,25 @@ const VideoContainer: FC<Props> = (props: Props) => {
     }
   }, []);
 
+  const { latestLive } = useLatestLive(state.apiKey, live);
+
+  useEffect(() => {
+    dispatch({
+      type: SET_VIDEO,
+      payload: {
+        videoId: latestLive.videoId,
+        channelId: latestLive.channelId,
+      },
+    });
+  }, [latestLive, dispatch]);
+
   return (
     <div ref={measureRef}>
-      <VideoContent height={height} width={width} {...props} />
+      <VideoContent
+        height={height}
+        width={width}
+        videoId={latestLive.videoId}
+      />
     </div>
   );
 };

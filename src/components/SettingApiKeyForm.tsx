@@ -10,21 +10,33 @@ const StyledForm = styled.form`
   margin: 10px;
 `;
 
-const SettingApiKeyForm: FC = () => {
+const StyledTextField = styled(TextField)`
+  margin: 0 5px;
+`;
+
+type Props = {
+  apiKey: string;
+};
+
+const SettingApiKeyForm: FC<Props> = ({ apiKey }) => {
   const { dispatch } = useContext(StoreContext);
 
-  const { register, handleSubmit, setValue } = useForm<{ apiKey: string }>();
-  const onSubmit = handleSubmit(({ apiKey }) => {
+  const { register, handleSubmit } = useForm<{ newApiKey: string }>();
+  const onSubmit = handleSubmit(({ newApiKey }) => {
     dispatch({
       type: SET_API_KEY,
-      payload: { apiKey },
+      payload: { apiKey: newApiKey },
     });
-    setValue('videoId', '');
   });
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      <TextField name="apiKey" inputRef={register} label="APIキー" />
+      <StyledTextField
+        name="newApiKey"
+        inputRef={register}
+        defaultValue={apiKey}
+        label="APIキー"
+      />
       <Button type="submit" variant="contained" color="primary">
         設定する
       </Button>

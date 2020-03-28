@@ -11,7 +11,7 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
     "preserveConstEnums": true,
