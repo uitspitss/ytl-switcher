@@ -3,7 +3,7 @@
   "short_name": "ytlsw",
   "theme_color": "#263238",
   "background_color": "#ffffa8",
-  "display": "fullscreen",
+  "display": "standalone",
   "Scope": "/",
   "start_url": "/",
   "icons": [{
