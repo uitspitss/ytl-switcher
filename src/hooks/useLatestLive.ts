@@ -17,11 +17,11 @@ const useLatestLive = (
 
   useEffect(() => {
     const load = async () => {
-      if (channelId && channelId.length >= 1) {
+      if (channelId && channelId.length > 0) {
         setLoading(true);
         try {
           const now = new Date().getTime();
-          if (updatedAt !== -1 || now - updatedAt < 3 * 60 * 60 * 1000) return;
+          if (updatedAt === -1 || now - updatedAt < 3 * 60 * 60 * 1000) return;
           setLatestLive({ channelId, videoId, updatedAt });
           const vid = await getLatestLive(apiKey, channelId);
           if (vid) {
