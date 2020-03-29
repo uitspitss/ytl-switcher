@@ -25,6 +25,7 @@ export default class MyApp extends App {
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
