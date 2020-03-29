@@ -21,17 +21,16 @@ type Props = {
 
 type FormData = {
   vid: string;
-  cid: string;
 };
 
 const DeletionForm: FC<Props> = ({ videoId, channelId }) => {
   const { dispatch } = useContext(StoreContext);
 
   const { register, handleSubmit } = useForm<FormData>();
-  const onSubmit = handleSubmit(({ vid, cid }) => {
+  const onSubmit = handleSubmit(({ vid }) => {
     dispatch({
       type: DELETE_VIDEO,
-      payload: { videoId: vid, channelId: cid },
+      payload: { videoId: vid },
     });
   });
 

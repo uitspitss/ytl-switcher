@@ -1,9 +1,17 @@
+export const SET_STATE = 'SET_STATE' as const;
 export const MUTE_ALL = 'MUTE_ALL' as const;
 export const UNMUTE_ONE = 'UNMUTE_ONE' as const;
 export const ADD_VIDEO = 'ADD_VIDEO' as const;
 export const DELETE_VIDEO = 'DELETE_VIDEO' as const;
 export const SET_VIDEO = 'SET_VIDEO' as const;
 export const SET_API_KEY = 'SET_API_KEY' as const;
+
+export const setState = (state: State) => ({
+  type: SET_STATE,
+  payload: {
+    state,
+  },
+});
 
 export const muteAll = (videoId: string) => ({
   type: MUTE_ALL,
@@ -27,11 +35,10 @@ export const addVideo = (videoId: string, channelId: string) => ({
   },
 });
 
-export const deleteVideo = (videoId: string, channelId: string) => ({
+export const deleteVideo = (videoId: string) => ({
   type: DELETE_VIDEO,
   payload: {
     videoId,
-    channelId,
   },
 });
 
@@ -51,6 +58,7 @@ export const setApiKey = (apiKey: string) => ({
 });
 
 export type Action =
+  | ReturnType<typeof setState>
   | ReturnType<typeof muteAll>
   | ReturnType<typeof unmuteOne>
   | ReturnType<typeof addVideo>

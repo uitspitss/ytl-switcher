@@ -6,15 +6,18 @@ import {
   DELETE_VIDEO,
   SET_VIDEO,
   SET_API_KEY,
+  SET_STATE,
 } from './actions';
-
-const saveLocalStorage = (state: State) => {
-  if (process.env.LOCAL_STORAGE_KEY)
-    localStorage.setItem(process.env.LOCAL_STORAGE_KEY, JSON.stringify(state));
-};
+import db from '../db';
 
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
+    case SET_STATE: {
+      const { payload } = action;
+
+      return { ...state, ...payload.state };
+    }
+
     case UNMUTE_ONE: {
       const { videoId } = action.payload;
       const lives = state.lives.map((live) => ({
@@ -22,7 +25,6 @@ export const reducer = (state: State, action: Action) => {
         videoId: live.videoId,
         isMuted: live.videoId !== videoId,
       }));
-      saveLocalStorage({ ...state, lives });
 
       return {
         ...state,
@@ -36,7 +38,6 @@ export const reducer = (state: State, action: Action) => {
         videoId: live.videoId,
         isMuted: true,
       }));
-      saveLocalStorage({ ...state, lives });
 
       return {
         ...state,
@@ -48,13 +49,14 @@ export const reducer = (state: State, action: Action) => {
       const { videoId, channelId } = action.payload;
       const lives = [...state.lives];
       if (lives.every((live) => live.videoId !== videoId)) {
-        lives.push({
+        const live = {
           videoId,
           channelId,
           isMuted: true,
           updatedAt: -1,
-        });
-        saveLocalStorage({ ...state, lives });
+        };
+        lives.push(live);
+        db.addLive(live);
       }
 
       return {
@@ -64,18 +66,14 @@ export const reducer = (state: State, action: Action) => {
     }
 
     case DELETE_VIDEO: {
-      const { videoId, channelId } = action.payload;
+      const { videoId } = action.payload;
       let lives = [...state.lives];
 
-      if (
-        lives.some(
-          (live) => live.videoId === videoId || live.channelId === channelId,
-        )
-      ) {
-        lives = lives.filter(
-          (v) => !(v.videoId === videoId && v.channelId === channelId),
-        );
-        saveLocalStorage({ ...state, lives });
+      const live = lives.find((v) => v.videoId === videoId);
+
+      if (live) {
+        lives = lives.filter((v) => v.videoId !== videoId);
+        db.deleteLive(videoId);
       }
 
       return {
@@ -88,16 +86,23 @@ export const reducer = (state: State, action: Action) => {
       const { videoId, channelId } = action.payload;
       let lives = [...state.lives];
 
-      if (
-        channelId !== '' &&
-        lives.some((live) => live.channelId === channelId)
-      ) {
-        lives = lives.map((v) =>
-          v.channelId === channelId
-            ? { ...v, videoId, updatedAt: new Date().getTime() }
-            : { ...v },
-        );
-        saveLocalStorage({ ...state, lives });
+      if (channelId === '') {
+        return {
+          ...state,
+          lives,
+        };
+      }
+
+      const live = lives.find((v) => v.channelId === channelId);
+
+      if (live) {
+        const l = {
+          ...live,
+          videoId,
+          updatedAt: new Date().getTime(),
+        };
+        lives = lives.map((v) => (v.channelId === channelId ? l : v));
+        db.updateLive(live);
       }
 
       return {
@@ -109,7 +114,7 @@ export const reducer = (state: State, action: Action) => {
     case SET_API_KEY: {
       const { apiKey } = action.payload;
 
-      saveLocalStorage({ ...state, apiKey });
+      db.putApiKey(apiKey);
 
       return {
         ...state,
