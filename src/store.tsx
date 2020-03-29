@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { reducer } from './reducer';
 import { Action, SET_STATE } from './actions';
-import db from '../db';
+import db from './db';
 
 const initialState: State = {
   lives: [],

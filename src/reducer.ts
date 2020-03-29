@@ -8,7 +8,7 @@ import {
   SET_API_KEY,
   SET_STATE,
 } from './actions';
-import db from '../db';
+import db from './db';
 
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
