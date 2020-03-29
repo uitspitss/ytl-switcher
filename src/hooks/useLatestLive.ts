@@ -21,7 +21,7 @@ const useLatestLive = (
         setLoading(true);
         try {
           const now = new Date().getTime();
-          if (updatedAt !== -1 || now - updatedAt < 12 * 60 * 60 * 1000) return;
+          if (updatedAt !== -1 || now - updatedAt < 3 * 60 * 60 * 1000) return;
           setLatestLive({ channelId, videoId, updatedAt });
           const vid = await getLatestLive(apiKey, channelId);
           if (vid) {
