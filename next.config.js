@@ -4,8 +4,6 @@ const Dotenv = require('dotenv-webpack');
 const withOffline = require('next-offline')({
   workboxOpts: {
     swDest: 'static/service-worker.js',
-    transformManifest: (manifest) => ['/'].concat(manifest),
-    generateInDevMode: false,
     runtimeCaching: [{
       urlPattern: /^https?.*/,
       handler: 'NetworkFirst',
@@ -26,6 +24,8 @@ const withOffline = require('next-offline')({
 
 const nextConfig = {
   target: "serverless",
+  transformManifest: (manifest) => ['/'].concat(manifest),
+  generateInDevMode: false,
   webpack: (config, options) => {
     config.plugins = config.plugins || [];
     config.plugins = [
