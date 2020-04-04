@@ -77,7 +77,6 @@ module.exports = {
     "@typescript-eslint/no-unnecessary-type-assertion": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/prefer-interface": "off",
-    "@typescript-eslint/no-empty-function": "off",
     "no-restricted-syntax": [
       "error",
       {

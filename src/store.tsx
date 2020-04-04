@@ -19,6 +19,7 @@ export const StoreContext = createContext<{
   dispatch: Dispatch<Action>;
 }>({
   state: initialState,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   dispatch: () => {},
 });
 
