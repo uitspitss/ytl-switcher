@@ -40,18 +40,18 @@ const DeletionForm: FC<Props> = ({ videoId, channelId }) => {
         name="vid"
         inputRef={register}
         defaultValue={videoId}
-        label="ライブ配信ID"
+        label="Live ID"
         InputProps={{ readOnly: true }}
       />
       <StyledTextField
         name="cid"
         inputRef={register}
         defaultValue={channelId}
-        label="チャンネルID"
+        label="Channel ID"
         InputProps={{ readOnly: true }}
       />
       <Button type="submit" variant="outlined" color="primary">
-        削除する
+        Delete
       </Button>
     </StyledForm>
   );

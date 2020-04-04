@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import Fab from '@material-ui/core/Fab';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import SettingsIcon from '@material-ui/icons/Settings';
 import styled from '@emotion/styled';
 import VideoForm from './VideoForm';
 
@@ -30,12 +30,12 @@ const AdditionButton: FC<Props> = ({ floating = false }) => {
     <>
       {floating ? (
         <StyledFab onClick={handleOpen} color="secondary">
-          <AddIcon />
+          <SettingsIcon />
         </StyledFab>
       ) : (
-        <Button onClick={handleOpen} color="secondary" variant="contained">
-          ライブ配信を追加する
-        </Button>
+        <IconButton onClick={handleOpen} color="secondary">
+          <SettingsIcon />
+        </IconButton>
       )}
       <VideoForm isOpen={open} handleClose={handleClose} />
     </>

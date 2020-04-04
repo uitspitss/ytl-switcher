@@ -1,7 +1,8 @@
-import React, { FC, useContext } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from '@emotion/styled';
 import { StoreContext } from '../store';
 import { SET_API_KEY } from '../actions';
@@ -18,15 +19,22 @@ type Props = {
   apiKey: string;
 };
 
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec));
+
 const SettingApiKeyForm: FC<Props> = ({ apiKey }) => {
   const { dispatch } = useContext(StoreContext);
+  const [isLoading, setLoading] = useState(false);
 
   const { register, handleSubmit } = useForm<{ newApiKey: string }>();
-  const onSubmit = handleSubmit(({ newApiKey }) => {
+  const onSubmit = handleSubmit(async ({ newApiKey }) => {
+    setLoading(true);
+    await sleep(1000);
     dispatch({
       type: SET_API_KEY,
       payload: { apiKey: newApiKey },
     });
+    setLoading(false);
   });
 
   return (
@@ -35,10 +43,10 @@ const SettingApiKeyForm: FC<Props> = ({ apiKey }) => {
         name="newApiKey"
         inputRef={register}
         defaultValue={apiKey}
-        label="APIキー"
+        label="API KEY"
       />
       <Button type="submit" variant="contained" color="primary">
-        設定する
+        {isLoading ? <CircularProgress color="secondary" /> : 'SET API KEY'}
       </Button>
     </StyledForm>
   );

@@ -4,9 +4,9 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
-import VolumeOff from '@material-ui/icons/VolumeOff';
-import VolumeUp from '@material-ui/icons/VolumeUp';
-import VolumeDown from '@material-ui/icons/VolumeDown';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
 
@@ -117,7 +117,7 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
         `}
       />
       <div className="indicator">
-        {isMuted ? '' : <VolumeUp fontSize="large" />}
+        {isMuted ? '' : <VolumeUpIcon fontSize="large" />}
       </div>
       <Grid container className="overlay">
         <Grid className="mute-button" xs={6}>
@@ -133,9 +133,9 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
             }
           >
             {isMuted ? (
-              <VolumeOff fontSize="large" />
+              <VolumeOffIcon fontSize="large" />
             ) : (
-              <VolumeUp fontSize="large" />
+              <VolumeUpIcon fontSize="large" />
             )}
           </button>
         </Grid>
@@ -148,17 +148,18 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
           xs={6}
         >
           <Grid item>
-            <VolumeUp fontSize="large" />
+            <VolumeUpIcon fontSize="large" />
           </Grid>
           <Grid item xs={6}>
             <Slider
               value={volume}
               onChange={(_, value) => setVolume(value as number)}
               orientation="vertical"
+              valueLabelDisplay="auto"
             />
           </Grid>
           <Grid item>
-            <VolumeDown fontSize="large" />
+            <VolumeDownIcon fontSize="large" />
           </Grid>
         </Grid>
       </Grid>

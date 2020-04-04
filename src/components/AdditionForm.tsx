@@ -36,18 +36,14 @@ const AdditionForm: FC = () => {
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      <StyledTextField
-        name="videoId"
-        inputRef={register}
-        label="ライブ配信ID"
-      />
+      <StyledTextField name="videoId" inputRef={register} label="Live ID" />
       <StyledTextField
         name="channelId"
         inputRef={register}
-        label="チャンネルID"
+        label="Channel ID"
       />
       <Button type="submit" variant="contained" color="primary">
-        追加する
+        Add
       </Button>
     </StyledForm>
   );
