@@ -1,9 +1,12 @@
-import React, { FC, useRef, useContext, useEffect } from 'react';
+import React, { FC, useRef, useState, useContext, useEffect } from 'react';
 import YouTube from 'react-youtube';
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
-import VolumeOffIcon from '@material-ui/icons/VolumeOff';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
+import VolumeOff from '@material-ui/icons/VolumeOff';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+import VolumeDown from '@material-ui/icons/VolumeDown';
 import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
 
@@ -57,7 +60,8 @@ const StyledDiv = styled.div<StyledProps>`
     width: 100%;
     height: 100%;
     color: ${(props) => (props.isMuted ? '#fff' : '#c4302b')};
-    background: #333;
+    background: #000000;
+    border: none;
   }
 `;
 
@@ -71,6 +75,7 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
   const isMuted = state.lives.find((c) => c.videoId === videoId)?.isMuted;
+  const [volume, setVolume] = useState<number>(50);
 
   const handleReady = (event: { target: any }) => {
     player.current = event.target;
@@ -89,6 +94,12 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
     }
   }, [videoId, isMuted]);
 
+  useEffect(() => {
+    const p = player.current;
+    if (!p) return;
+    p.setVolume(volume);
+  }, [volume]);
+
   return (
     <StyledDiv isMuted={isMuted}>
       <YouTube
@@ -106,27 +117,51 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
         `}
       />
       <div className="indicator">
-        {isMuted ? '' : <VolumeUpIcon fontSize="large" />}
+        {isMuted ? '' : <VolumeUp fontSize="large" />}
       </div>
-      <div className="overlay">
-        <button
-          type="button"
-          onClick={() =>
-            isMuted
-              ? dispatch({
-                  type: UNMUTE_ONE,
-                  payload: { videoId },
-                })
-              : dispatch({ type: MUTE_ALL, payload: { videoId } })
-          }
+      <Grid container className="overlay">
+        <Grid className="mute-button" xs={6}>
+          <button
+            type="button"
+            onClick={() =>
+              isMuted
+                ? dispatch({
+                    type: UNMUTE_ONE,
+                    payload: { videoId },
+                  })
+                : dispatch({ type: MUTE_ALL, payload: { videoId } })
+            }
+          >
+            {isMuted ? (
+              <VolumeOff fontSize="large" />
+            ) : (
+              <VolumeUp fontSize="large" />
+            )}
+          </button>
+        </Grid>
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          className="slider-grid"
+          xs={6}
         >
-          {isMuted ? (
-            <VolumeOffIcon fontSize="large" />
-          ) : (
-            <VolumeUpIcon fontSize="large" />
-          )}
-        </button>
-      </div>
+          <Grid item>
+            <VolumeUp fontSize="large" />
+          </Grid>
+          <Grid item xs={6}>
+            <Slider
+              value={volume}
+              onChange={(_, value) => setVolume(value as number)}
+              orientation="vertical"
+            />
+          </Grid>
+          <Grid item>
+            <VolumeDown fontSize="large" />
+          </Grid>
+        </Grid>
+      </Grid>
     </StyledDiv>
   );
 };
