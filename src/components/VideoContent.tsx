@@ -94,12 +94,6 @@ const VideoContent: FC<Props> = ({
     if (isMuted) p.mute();
   };
 
-  const handleExpand = () => {
-    expand();
-    const p = player.current;
-    p.setSize(width, height);
-  };
-
   useEffect(() => {
     const p = player.current;
     if (!p) return;
@@ -180,7 +174,7 @@ const VideoContent: FC<Props> = ({
           </Grid>
         </Grid>
         <Grid className="mute-button" xs={6}>
-          <button type="button" onClick={handleExpand}>
+          <button type="button" onClick={() => expand()}>
             {expanded ? (
               <ZoomOutIcon fontSize="large" />
             ) : (
