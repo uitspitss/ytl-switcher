@@ -7,6 +7,8 @@ import Slider from '@material-ui/core/Slider';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import { StoreContext } from '../store';
 import { MUTE_ALL, UNMUTE_ONE } from '../actions';
 
@@ -41,7 +43,7 @@ const StyledDiv = styled.div<StyledProps>`
     left: 0;
     background: #000;
     z-index: 50;
-    color: #fff;
+    color: #ffffff;
     height: 100%;
     width: 100%;
     opacity: 0.01;
@@ -59,7 +61,7 @@ const StyledDiv = styled.div<StyledProps>`
   .overlay button {
     width: 100%;
     height: 100%;
-    color: ${(props) => (props.isMuted ? '#fff' : '#c4302b')};
+    color: #ffffff;
     background: #000000;
     border: none;
   }
@@ -69,18 +71,33 @@ type Props = {
   videoId: string;
   height: string;
   width: string;
+  expanded: boolean;
+  expand: () => void;
 };
 
-const VideoContent: FC<Props> = ({ videoId, height, width }) => {
+const VideoContent: FC<Props> = ({
+  videoId,
+  height,
+  width,
+  expanded,
+  expand,
+}) => {
   const player: any = useRef(null);
   const { state, dispatch } = useContext(StoreContext);
   const isMuted = state.lives.find((c) => c.videoId === videoId)?.isMuted;
   const [volume, setVolume] = useState<number>(50);
 
   const handleReady = (event: { target: any }) => {
-    player.current = event.target;
-    player.current.playVideo();
-    if (isMuted) event.target.mute();
+    const p = event.target;
+    player.current = p;
+    p.playVideo();
+    if (isMuted) p.mute();
+  };
+
+  const handleExpand = () => {
+    expand();
+    const p = player.current;
+    p.setSize(width, height);
   };
 
   useEffect(() => {
@@ -162,6 +179,16 @@ const VideoContent: FC<Props> = ({ videoId, height, width }) => {
             <VolumeDownIcon fontSize="large" />
           </Grid>
         </Grid>
+        <Grid className="mute-button" xs={6}>
+          <button type="button" onClick={handleExpand}>
+            {expanded ? (
+              <ZoomOutIcon fontSize="large" />
+            ) : (
+              <ZoomInIcon fontSize="large" />
+            )}
+          </button>
+        </Grid>
+        <Grid className="mute-button" xs={6} />
       </Grid>
     </StyledDiv>
   );
