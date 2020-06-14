@@ -9,13 +9,13 @@ const StyledTitle = styled(Typography)`
   flex-grow: 1;
 `;
 
-const NavBar = () => (
+const NavBar: React.FC = () => (
   <AppBar position="static">
     <Toolbar>
       <StyledTitle variant="h6">
         YouTube Live Switcher (YTL Switcher)
       </StyledTitle>
-      <AdditionButton />
+      <AdditionButton floating={false} />
     </Toolbar>
   </AppBar>
 );

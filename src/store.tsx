@@ -12,6 +12,7 @@ import db from './db';
 const initialState: State = {
   lives: [],
   apiKey: '',
+  isLoading: true,
 };
 
 export const StoreContext = createContext<{
@@ -32,7 +33,7 @@ export const StoreProvider: FC = ({ children }) => {
 
       dispatch({
         type: SET_STATE,
-        payload: { state: s },
+        payload: { state: { ...s, isLoading: false } },
       });
     };
     fetchDb();

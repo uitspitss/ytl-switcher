@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
 import styled from '@emotion/styled';
 import VideoForm from './VideoForm';
+import { StoreContext } from '../store';
 
 const StyledFab = styled(Fab)`
   position: fixed !important;
@@ -13,11 +14,12 @@ const StyledFab = styled(Fab)`
 `;
 
 type Props = {
-  floating?: boolean;
+  floating: boolean;
 };
 
 const AdditionButton: FC<Props> = ({ floating = false }) => {
   const [open, setOpen] = useState(false);
+  const { state } = React.useContext(StoreContext);
 
   const handleOpen = () => {
     setOpen(true);
@@ -37,7 +39,10 @@ const AdditionButton: FC<Props> = ({ floating = false }) => {
           <SettingsIcon />
         </IconButton>
       )}
-      <VideoForm isOpen={open} handleClose={handleClose} />
+      <VideoForm
+        isOpen={open || (!state.lives.length && !state.isLoading)}
+        handleClose={handleClose}
+      />
     </>
   );
 };

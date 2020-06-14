@@ -131,7 +131,7 @@ const VideoContent: FC<Props> = ({
         {isMuted ? '' : <VolumeUpIcon fontSize="large" />}
       </div>
       <Grid container className="overlay">
-        <Grid className="mute-button" xs={6}>
+        <Grid item className="mute-button" xs={6}>
           <button
             type="button"
             onClick={() =>
@@ -156,7 +156,6 @@ const VideoContent: FC<Props> = ({
           justify="center"
           alignItems="center"
           className="slider-grid"
-          xs={6}
         >
           <Grid item>
             <VolumeUpIcon fontSize="large" />
@@ -173,7 +172,7 @@ const VideoContent: FC<Props> = ({
             <VolumeDownIcon fontSize="large" />
           </Grid>
         </Grid>
-        <Grid className="mute-button" xs={6}>
+        <Grid item className="mute-button" xs={6}>
           <button type="button" onClick={() => expand()}>
             {expanded ? (
               <ZoomOutIcon fontSize="large" />
@@ -182,7 +181,7 @@ const VideoContent: FC<Props> = ({
             )}
           </button>
         </Grid>
-        <Grid className="mute-button" xs={6} />
+        <Grid item className="mute-button" xs={6} />
       </Grid>
     </StyledDiv>
   );
